@@ -5,7 +5,7 @@ import java.util.List;
 
 public class LocationParser {
 
-    List<Location> locations = new ArrayList<>();
+    private List<Location> locations = new ArrayList<>();
 
     public List<Location> getLocations() {
         return locations;
