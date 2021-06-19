@@ -29,7 +29,7 @@ public class DistanceServiceTest {
         when(locationRepository.findByName(any()))
                 .thenReturn(Optional.of(location));
 
-        distanceService.calculateDistance("Budapest", "Szeged");
+        distanceService.calculateDistance("Budapest", "Debrecen");
         verify(locationRepository, atLeast(1)).findByName(any());
     }
 }
