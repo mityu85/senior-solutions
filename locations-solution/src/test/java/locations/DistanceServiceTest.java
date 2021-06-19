@@ -24,12 +24,12 @@ public class DistanceServiceTest {
     @Test
     void testCalculateDistance() {
 
-        when(locationRepository.findByName(eq("Budapest")))
-                .thenReturn(Optional.of(new Location("Budapest", 15.789,78.789)));
+        Location location = new Location("Budapest", 15.789,78.789);
 
-        Optional<Location> location = locationRepository.findByName("Budapest");
-        //Optional<Double> distance = distanceService.calculateDistance("Budapest", "Szeged");
-        verify(locationRepository).findByName(any());
-        assertEquals("Budapest", location.get().getName());
+        when(locationRepository.findByName(any()))
+                .thenReturn(Optional.of(location));
+
+        distanceService.calculateDistance("Budapest", "Szeged");
+        verify(locationRepository, atLeast(1)).findByName(any());
     }
 }

@@ -14,8 +14,7 @@ public class DistanceService {
     }
 
     public Optional<Double> calculateDistance(String name1, String name2) {
-        Optional<Double> result = Optional.of(locationParser.distanceFrom(locationRepository.findByName(name1).get(),
+        return Optional.of(locationParser.distanceFrom(locationRepository.findByName(name1).get(),
                 locationRepository.findByName(name2).get()));
-        return result;
     }
 }
