@@ -1,0 +1,21 @@
+package locations;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+public class LocationsController {
+
+    private LocationService locationService;
+
+    public LocationsController(LocationService locationService) {
+        this.locationService = locationService;
+    }
+
+    @GetMapping("/locations")
+    public String getLocations() {
+        return locationService.getLocations().toString();
+    }
+}
