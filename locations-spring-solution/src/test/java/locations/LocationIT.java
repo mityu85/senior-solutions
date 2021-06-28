@@ -16,6 +16,6 @@ public class LocationIT {
     void getLocation() {
         assertEquals("[Location{id=1, name='Budapest', lat=48.789, lon=63.987}," +
                 " Location{id=1, name='Szeged', lat=84.789, lon=36.987}," +
-                " Location{id=1, name='Debrecen', lat=-89.789, lon=148.987}]", locationsController.getLocations());
+                " Location{id=1, name='Debrecen', lat=-89.789, lon=148.987}]", locationsController.getLocations(null));
     }
 }
