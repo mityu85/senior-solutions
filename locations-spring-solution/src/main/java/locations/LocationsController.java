@@ -1,7 +1,13 @@
 package locations;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.zalando.problem.Problem;
+import org.zalando.problem.Status;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +37,17 @@ public class LocationsController {
         return locationService.getLocationById(id);
     }
 
+//    @GetMapping("/{id}")
+//    public ResponseEntity getLocationById(@PathVariable("id") long id) {
+//        try {
+//            return ResponseEntity.ok(locationService.getLocationById(id));
+//        } catch (IllegalArgumentException e) {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public LocationDto createLocation(@RequestBody CreateLocationCommand command) {
         return locationService.createLocation(command);
     }
@@ -42,7 +58,29 @@ public class LocationsController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLocation(@PathVariable("id") long id) {
         locationService.deleteLocation(id);
     }
+
+    @ExceptionHandler(LocationNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Problem> handleNotFound(LocationNotFoundException e) {
+        Problem problem =
+                Problem.builder()
+                        .withType(URI.create("locations/not-found"))
+                        .withTitle("Not found")
+                        .withStatus(Status.NOT_FOUND)
+                        .withDetail(e.getMessage())
+                        .build();
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.APPLICATION_PROBLEM_JSON)
+                .body(problem);
+    }
+
+//    @ExceptionHandler(IllegalArgumentException.class)
+//    @ResponseStatus(HttpStatus.NOT_FOUND)
+//    public void handleNotFound() {
+//    }
 }
