@@ -3,11 +3,11 @@ GET http://localhost:8080/locations/api
 Accept: application/json
 
 ###
-GET http://localhost:8080/locations/api?name=Szeged
+GET http://localhost:8080/locations/api?name=BudaPest
 Accept: application/json
 
 ###
-GET http://localhost:8080/locations/api/lat?lat=0&lon=0
+GET http://localhost:8080/locations/api/lat?minLat=50&maxLat=85&minLon=0&maxLon=50
 Accept: application/json
 
 

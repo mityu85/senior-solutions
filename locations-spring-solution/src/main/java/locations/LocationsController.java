@@ -24,7 +24,8 @@ public class LocationsController {
     }
 
     @GetMapping("/lat")
-    public List<LocationDto> getLocations(@RequestParam Optional<Double> lat, @RequestParam Optional<Double> lon) {
-        return locationService.getLocationsByLatitude(lat, lon);
+    public List<LocationDto> getLocations(@RequestParam Optional<Double> minLat, @RequestParam Optional<Double> maxLat,
+                                          @RequestParam Optional<Double> minLon, @RequestParam Optional<Double> maxLon) {
+        return locationService.getLocationsByLatitude(minLat, maxLat, minLon, maxLon);
     }
 }

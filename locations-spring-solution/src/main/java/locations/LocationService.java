@@ -34,10 +34,11 @@ public class LocationService {
                 .collect(Collectors.toList());
     }
 
-    public List<LocationDto> getLocationsByLatitude(Optional<Double> minLat, Optional<Double> minLon) {
+    public List<LocationDto> getLocationsByLatitude(Optional<Double> minLat, Optional<Double> maxLat, Optional<Double> minLon, Optional<Double> maxLon) {
         return locations.stream()
-                .filter(e -> (minLat.isEmpty() || minLon.isEmpty()) ||
-                        (e.getLat() >= minLat.get() && e.getLon() >= minLon.get()))
+                .filter(e -> ((minLat.isEmpty() || maxLat.isEmpty() || minLon.isEmpty()) || maxLon.isEmpty()) ||
+                        (e.getLat() >= minLat.get() && e.getLat() <= maxLat.get() &&
+                                e.getLon() >= minLon.get() && e.getLon() <= maxLon.get()))
                 .map(e -> modelMapper.map(e, LocationDto.class))
                 .collect(Collectors.toList());
     }
