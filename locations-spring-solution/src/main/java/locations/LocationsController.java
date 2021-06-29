@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/locations/api")
+@RequestMapping("/api/locations")
 public class LocationsController {
 
     private LocationService locationService;
@@ -29,5 +29,10 @@ public class LocationsController {
     @GetMapping("/{id}")
     public LocationDto getLocationById(@PathVariable("id") long id) {
         return locationService.getLocationById(id);
+    }
+
+    @PostMapping
+    public LocationDto createLocation(@RequestBody CreateLocationCommand command) {
+        return locationService.createLocation(command);
     }
 }

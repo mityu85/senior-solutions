@@ -1,17 +1,27 @@
 ###
-GET http://localhost:8080/locations/api
+GET http://localhost:8080/api/locations
 Accept: application/json
 
 ###
-GET http://localhost:8080/locations/api/3
+GET http://localhost:8080/api/locations/3
 Accept: application/json
 
 ###
-GET http://localhost:8080/locations/api?name=BudaPest
+GET http://localhost:8080/api/locations?name=BudaPest
 Accept: application/json
 
 ###
-GET http://localhost:8080/locations/api/lat?minLat=50&maxLat=85&minLon=0&maxLon=50
+GET http://localhost:8080/api/locations/lat?minLat=50&maxLat=85&minLon=0&maxLon=50
 Accept: application/json
 
+###
+POST http://localhost:8080/api/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Nyíregyháza",
+  "lat": 18.789,
+  "lon": -59.456
+}
 

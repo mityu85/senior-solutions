@@ -49,4 +49,12 @@ public class LocationService {
                 .orElseThrow(() -> new IllegalArgumentException("Location is not found: " + id)),
                 LocationDto.class);
     }
+
+    public LocationDto createLocation(CreateLocationCommand command) {
+        return modelMapper.map(locations.add(new Location(
+                idGenerator.incrementAndGet(),
+                        command.getName(),
+                        command.getLat(),
+                        command.getLon())), LocationDto.class);
+    }
 }
