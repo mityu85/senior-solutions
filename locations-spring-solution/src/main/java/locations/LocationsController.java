@@ -1,9 +1,6 @@
 package locations;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,5 +24,10 @@ public class LocationsController {
     public List<LocationDto> getLocations(@RequestParam Optional<Double> minLat, @RequestParam Optional<Double> maxLat,
                                           @RequestParam Optional<Double> minLon, @RequestParam Optional<Double> maxLon) {
         return locationService.getLocationsByLatitude(minLat, maxLat, minLon, maxLon);
+    }
+
+    @GetMapping("/{id}")
+    public LocationDto getLocationById(@PathVariable("id") long id) {
+        return locationService.getLocationById(id);
     }
 }

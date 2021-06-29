@@ -42,4 +42,11 @@ public class LocationService {
                 .map(e -> modelMapper.map(e, LocationDto.class))
                 .collect(Collectors.toList());
     }
+
+    public LocationDto getLocationById(long id) {
+        return modelMapper.map(locations.stream()
+                .filter(e -> e.getId() == id).findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Location is not found: " + id)),
+                LocationDto.class);
+    }
 }
