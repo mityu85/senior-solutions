@@ -57,4 +57,14 @@ public class LocationService {
                         command.getLat(),
                         command.getLon())), LocationDto.class);
     }
+
+    public LocationDto updateLocation(long id, UpdateLocationCommand command) {
+        Location location = locations.stream().filter(e -> e.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Location is not found: " + id));
+        location.setName(command.getName());
+        location.setLat(command.getLat());
+        location.setLon(command.getLon());
+        return modelMapper.map(location, LocationDto.class);
+    }
 }

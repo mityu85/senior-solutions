@@ -25,3 +25,14 @@ Accept: application/json
   "lon": -59.456
 }
 
+###
+PUT http://localhost:8080/api/locations/3
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Hajdúszoboszló",
+  "lat": -88.789,
+  "lon": 100.456
+}
+
