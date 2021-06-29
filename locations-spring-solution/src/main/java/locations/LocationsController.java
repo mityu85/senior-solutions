@@ -40,4 +40,9 @@ public class LocationsController {
     public LocationDto updateLocation(@PathVariable("id") long id, @RequestBody UpdateLocationCommand command) {
         return locationService.updateLocation(id, command);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteLocation(@PathVariable("id") long id) {
+        locationService.deleteLocation(id);
+    }
 }

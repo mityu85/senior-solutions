@@ -3,6 +3,7 @@ package locations;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,5 +67,12 @@ public class LocationService {
         location.setLat(command.getLat());
         location.setLon(command.getLon());
         return modelMapper.map(location, LocationDto.class);
+    }
+
+    public void deleteLocation(long id) {
+        locations.remove(locations.stream()
+                .filter(e -> e.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Location is not found: " + id)));
     }
 }
