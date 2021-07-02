@@ -76,27 +76,27 @@ public class EmployeesController {
                 .body(problem);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Problem> handleValidException(MethodArgumentNotValidException exception) {
-        List<Violation> violations =
-                exception.getBindingResult().getFieldErrors().stream()
-                .map(fe -> new Violation(fe.getField(), fe.getDefaultMessage()))
-                .collect(Collectors.toList());
-
-        Problem problem =
-                Problem.builder()
-                        .withType(URI.create("employees/not-valid"))
-                .withTitle("Validation error")
-                .withStatus(Status.BAD_REQUEST)
-                .withDetail(exception.getMessage())
-                .with("violations", violations)
-                .build();
-
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .contentType(MediaType.APPLICATION_PROBLEM_JSON)
-                .body(problem);
-    }
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<Problem> handleValidException(MethodArgumentNotValidException exception) {
+//        List<Violation> violations =
+//                exception.getBindingResult().getFieldErrors().stream()
+//                .map(fe -> new Violation(fe.getField(), fe.getDefaultMessage()))
+//                .collect(Collectors.toList());
+//
+//        Problem problem =
+//                Problem.builder()
+//                        .withType(URI.create("employees/not-valid"))
+//                .withTitle("Validation error")
+//                .withStatus(Status.BAD_REQUEST)
+//                .withDetail(exception.getMessage())
+//                .with("violations", violations)
+//                .build();
+//
+//        return ResponseEntity
+//                .status(HttpStatus.BAD_REQUEST)
+//                .contentType(MediaType.APPLICATION_PROBLEM_JSON)
+//                .body(problem);
+//    }
 
 //    @ExceptionHandler(IllegalArgumentException.class)
 //    @ResponseStatus(HttpStatus.NOT_FOUND)
