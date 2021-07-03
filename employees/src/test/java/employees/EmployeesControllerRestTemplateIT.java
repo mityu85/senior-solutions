@@ -19,10 +19,10 @@ public class EmployeesControllerRestTemplateIT {
     @Autowired
     TestRestTemplate template;
 
-//    @Autowired
-//    EmployeesService employeesService;
+    @Autowired
+    EmployeesService employeesService;
 
-    //@Test
+    @Test
     @RepeatedTest(2)
     void testListEmployees() {
         employeesService.deleteAllEmployees();
