@@ -25,22 +25,22 @@ public class EmployeesControllerRestTemplateIT {
     //@Test
     @RepeatedTest(2)
     void testListEmployees() {
-//        employeesService.deleteAllEmployees();
+        employeesService.deleteAllEmployees();
 
         EmployeeDto employeeDto =
                 template.postForObject("/api/employees", new CreateEmployeeCommand("John Doe"), EmployeeDto.class);
         assertEquals("John Doe",employeeDto.getName());
 
-//        template.postForObject("/api/employees", new CreateEmployeeCommand("Jane Doe"), EmployeeDto.class);
-//
-//        List<EmployeeDto> employees = template.exchange("/api/employees",
-//                HttpMethod.GET,
-//                null,
-//                new ParameterizedTypeReference<List<EmployeeDto>>() {})
-//                .getBody();
-//
-//        assertThat(employees)
-//                .extracting(EmployeeDto::getName)
-//                .containsExactly("John Doe", "Jane Doe");
+        template.postForObject("/api/employees", new CreateEmployeeCommand("Jane Doe"), EmployeeDto.class);
+
+        List<EmployeeDto> employees = template.exchange("/api/employees",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<EmployeeDto>>() {})
+                .getBody();
+
+        assertThat(employees)
+                .extracting(EmployeeDto::getName)
+                .containsExactly("John Doe", "Jane Doe");
     }
 }
