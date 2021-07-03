@@ -52,11 +52,9 @@ public class LocationService {
     }
 
     public LocationDto createLocation(CreateLocationCommand command) {
-        return modelMapper.map(locations.add(new Location(
-                idGenerator.incrementAndGet(),
-                        command.getName(),
-                        command.getLat(),
-                        command.getLon())), LocationDto.class);
+        Location location = new Location(idGenerator.incrementAndGet(), command.getName(), command.getLat(), command.getLon());
+        locations.add(location);
+        return  modelMapper.map(location, LocationDto.class);
     }
 
     public LocationDto updateLocation(long id, UpdateLocationCommand command) {
@@ -74,5 +72,10 @@ public class LocationService {
                 .filter(e -> e.getId() == id)
                 .findFirst()
                 .orElseThrow(() -> new LocationNotFoundException("Location is not found: " + id)));
+    }
+
+    public void deleteAllLocation() {
+        idGenerator = new AtomicLong();
+        locations.clear();
     }
 }

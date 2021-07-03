@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.zalando.problem.Problem;
 import org.zalando.problem.Status;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +49,7 @@ public class LocationsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public LocationDto createLocation(@RequestBody CreateLocationCommand command) {
+    public LocationDto createLocation(@Valid @RequestBody CreateLocationCommand command) {
         return locationService.createLocation(command);
     }
 

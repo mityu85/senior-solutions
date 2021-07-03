@@ -26,6 +26,17 @@ Accept: application/json
 }
 
 ###
+POST http://localhost:8080/api/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+"name": "Nyíregyháza",
+"lat": -91,
+"lon": -59.456
+}
+
+###
 PUT http://localhost:8080/api/locations/3
 Content-Type: application/json
 Accept: application/json
