@@ -24,10 +24,13 @@ public class MusicStoreService {
     }
 
     public List<InstrumentDTO> listInstrument(Optional<String> brand, Optional<Integer> price) {
-        List<Instrument> filtered = instruments.stream()
-                .filter(e -> brand.isEmpty() || price.isEmpty() || e.getBrand().equals(brand.get()) || e.getPrice() == price.get())
+        List<InstrumentDTO> filtered = instruments.stream()
+                .filter(e -> brand.isEmpty() ||  e.getBrand().equalsIgnoreCase(brand.get()))
+                .filter(e -> price.isEmpty() || e.getPrice() == price.get())
+                .map(e -> modelMapper.map(e, InstrumentDTO.class))
                 .collect(Collectors.toList());
-        return filtered.stream().map(e -> modelMapper.map(e, InstrumentDTO.class)).collect(Collectors.toList());
+        return filtered;
+        //return filtered.stream().map(e -> modelMapper.map(e, InstrumentDTO.class)).collect(Collectors.toList());
     }
 
     public InstrumentDTO createInstrument(CreateInstrumentCommand command) {
