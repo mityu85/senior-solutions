@@ -37,7 +37,7 @@ public class EmployeesService {
     public EmployeeDto findEmployeeById(long id) {
         return modelMapper.map(employees.stream()
                 .filter(e -> e.getId() == id).findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Employee not found: " + id)),
+                .orElseThrow(() -> new EmployeeNotFoundException(id)),
                 EmployeeDto.class);
     }
 
@@ -51,7 +51,7 @@ public class EmployeesService {
         Employee employee = employees.stream()
                 .filter(e -> e.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Employee not found: " + id));
+                .orElseThrow(() -> new EmployeeNotFoundException(id));
         employee.setName(command.getName());
         return modelMapper.map(employee, EmployeeDto.class);
     }
@@ -60,7 +60,7 @@ public class EmployeesService {
         Employee employee = employees.stream()
                 .filter(e -> e.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Employee not found: " + id));
+                .orElseThrow(() -> new EmployeeNotFoundException(id));
         employees.remove(employee);
     }
 
