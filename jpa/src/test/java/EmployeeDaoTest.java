@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,15 +21,15 @@ public class EmployeeDaoTest {
 
     @BeforeEach
     public void init() {
-        MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setURL("jdbc:mysql://localhost:3306/employees");
-        dataSource.setUser("employees");
-        dataSource.setPassword("employees");
-
-        Flyway flyway = new Flyway();
-        flyway.setDataSource(dataSource);
-        flyway.clean();
-        flyway.migrate();
+//        MysqlDataSource dataSource = new MysqlDataSource();
+//        dataSource.setURL("jdbc:mysql://localhost:3306/employees");
+//        dataSource.setUser("employees");
+//        dataSource.setPassword("employees");
+//
+//        Flyway flyway = new Flyway();
+//        flyway.setDataSource(dataSource);
+//        flyway.clean();
+//        flyway.migrate();
 
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("pu");
         employeeDao = new EmployeeDao(entityManagerFactory);
@@ -77,5 +78,19 @@ public class EmployeeDaoTest {
 
         List<Employee> employees = employeeDao.listAll();
         assertTrue(employees.isEmpty());
+    }
+
+    @Test
+    public void testIllegalId() {
+        Employee employee = employeeDao.findById(12L);
+        assertEquals(null, employee);
+    }
+
+    @Test
+    public void testEmployeeWithAttributes() {
+        employeeDao.save(new Employee("John Doe", Employee.EmployeeType.HALF_TIME,
+                LocalDate.of(2000, 1,1)));
+        Employee employee = employeeDao.listAll().get(0);
+        assertEquals(LocalDate.of(2000,1,1), employee.getDateOfBirth());
     }
 }
