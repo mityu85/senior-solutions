@@ -37,19 +37,20 @@ public class EmployeeDaoTest {
 
     @Test
     public void testSaveAndFindById() {
-        Employee employee = new Employee("John Doe");
+        Employee employee = new Employee("x", 1L, "John Doe");
         employeeDao.save(employee);
 
         long id = employee.getId();
+        String depName = employee.getDepName();
 
-        Employee another = employeeDao.findById(id);
+        Employee another = employeeDao.findById(depName, id);
         assertEquals("John Doe", another.getName());
     }
 
     @Test
     public void testSaveAndListAll() {
-        employeeDao.save(new Employee("John Doe"));
-        employeeDao.save(new Employee("Jane Doe"));
+        employeeDao.save(new Employee("x", 1L, "John Doe"));
+        employeeDao.save(new Employee("x", 2L,"Jane Doe"));
 
         List<Employee> employees = employeeDao.listAll();
         assertEquals(List.of("Jane Doe", "John Doe"),
@@ -58,23 +59,25 @@ public class EmployeeDaoTest {
 
     @Test
     public void testChangeName() {
-        Employee employee = new Employee("John Doe");
+        Employee employee = new Employee("x", 1L,"John Doe");
         employeeDao.save(employee);
 
         long id = employee.getId();
+        String depName = employee.getDepName();
 
-        employeeDao.changeName(id, "Jack Doe");
+        employeeDao.changeName(depName, id, "Jack Doe");
 
-        Employee another = employeeDao.findById(id);
+        Employee another = employeeDao.findById(depName, id);
         assertEquals("Jack Doe", another.getName());
     }
 
     @Test
     public void testDelete() {
-        Employee employee = new Employee("John Doe");
+        Employee employee = new Employee("x", 1L,"John Doe");
         employeeDao.save(employee);
         long id = employee.getId();
-        employeeDao.delete(id);
+        String depName = employee.getDepName();
+        employeeDao.delete(depName, id);
 
         List<Employee> employees = employeeDao.listAll();
         assertTrue(employees.isEmpty());
@@ -82,14 +85,16 @@ public class EmployeeDaoTest {
 
     @Test
     public void testIllegalId() {
-        Employee employee = employeeDao.findById(12L);
+        Employee employee = employeeDao.findById("x", 12L);
         assertEquals(null, employee);
     }
 
     @Test
     public void testEmployeeWithAttributes() {
-        employeeDao.save(new Employee("John Doe", Employee.EmployeeType.HALF_TIME,
-                LocalDate.of(2000, 1,1)));
+        for (long i = 0; i < 10; i++) {
+            employeeDao.save(new Employee("x", i, "John Doe", Employee.EmployeeType.HALF_TIME,
+                    LocalDate.of(2000, 1,1)));
+        }
         Employee employee = employeeDao.listAll().get(0);
         assertEquals(LocalDate.of(2000,1,1), employee.getDateOfBirth());
     }

@@ -5,12 +5,21 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "employees")
+@IdClass(EmployeeId.class)
 public class Employee {
 
     public enum EmployeeType {FULL_TIME, HALF_TIME}
 
+//    @EmbeddedId
+//    private EmployeeId employeeId;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String depName;
+
+    @Id
+//    @GeneratedValue(strategy = GenerationType.TABLE)
+//    @GeneratedValue(generator = "Emp_Gen")
+//    @TableGenerator(name = "Emp_Gen", table = "emp_id_gen", pkColumnName = "gen_name", valueColumnName = "gen_val")
     private Long id;
     @Column(name = "emp_name", length = 200, nullable = false)
     private String name;
@@ -26,10 +35,18 @@ public class Employee {
         this.name = name;
     }
 
-    public Employee(String name, EmployeeType employeeType, LocalDate dateOfBirth) {
+    public Employee(String depName, Long id, String name, EmployeeType employeeType, LocalDate dateOfBirth) {
+        this.depName = depName;
+        this.id = id;
         this.name = name;
-        this.employeeType = employeeType;
         this.dateOfBirth = dateOfBirth;
+        this.employeeType = employeeType;
+    }
+
+    public Employee(String depName, Long id, String name) {
+        this.depName = depName;
+        this.id = id;
+        this.name = name;
     }
 
     public Long getId() {
@@ -62,6 +79,14 @@ public class Employee {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getDepName() {
+        return depName;
+    }
+
+    public void setDepName(String depName) {
+        this.depName = depName;
     }
 
     @Override
