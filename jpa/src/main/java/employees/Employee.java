@@ -2,6 +2,8 @@ package employees;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Map;
+import java.util.Set;
 
 @Entity
 @Table(name = "employees")
@@ -27,6 +29,15 @@ public class Employee {
 
     @Enumerated(EnumType.STRING)
     private EmployeeType employeeType = EmployeeType.FULL_TIME;
+
+    @ElementCollection
+    private Set<VacationEntry> vacationBookings;
+
+    @ElementCollection
+    @CollectionTable(name = "phone_numbers")
+    @MapKeyColumn(name = "phone_type")
+    @Column(name = "phone_number")
+    private Map<String, String> phoneNumbers;
 
     @PostPersist
     public void debugPersist() {
@@ -92,6 +103,22 @@ public class Employee {
 
     public void setDepName(String depName) {
         this.depName = depName;
+    }
+
+    public Set<VacationEntry> getVacationBookings() {
+        return vacationBookings;
+    }
+
+    public void setVacationBookings(Set<VacationEntry> vacationBookings) {
+        this.vacationBookings = vacationBookings;
+    }
+
+    public Map<String, String> getPhoneNumbers() {
+        return phoneNumbers;
+    }
+
+    public void setPhoneNumbers(Map<String, String> phoneNumbers) {
+        this.phoneNumbers = phoneNumbers;
     }
 
     @Override

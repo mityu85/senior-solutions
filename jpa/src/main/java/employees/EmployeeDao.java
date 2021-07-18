@@ -81,4 +81,21 @@ public class EmployeeDao {
         em.getTransaction().commit();
         em.close();
     }
+
+    public Employee findEmployeeByIdWithVacations(Long id) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        Employee employee= em.createQuery("select e from Employee e join fetch e.vacationBookings where e.id = :id", Employee.class)
+                .setParameter("id", id)
+                .getSingleResult();
+        em.close();
+        return employee;
+    }
+
+    public Employee findEmployeeByIdWithPhoneNumbers(Long id) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        Employee employee = em.createQuery("select e from Employee e join fetch e.phoneNumbers where e.id = :id", Employee.class)
+                .setParameter("id", id)
+                .getSingleResult();
+        return employee;
+    }
 }

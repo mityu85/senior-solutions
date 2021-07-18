@@ -1,6 +1,7 @@
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import employees.Employee;
 import employees.EmployeeDao;
+import employees.VacationEntry;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,8 @@ import javax.persistence.Persistence;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -129,5 +132,28 @@ public class EmployeeDaoTest {
                     LocalDate.of(2000, 1,1)));
         }
         employeeDao.updateEmployeeNames();
+    }
+
+    @Test
+    public void testVacation() {
+        Employee employee = new Employee("x", 1L, "John Doe");
+        employee.setVacationBookings(Set.of(new VacationEntry(LocalDate.of(2021, 8, 16), 4),
+                new VacationEntry(LocalDate.of(2021, 11, 2), 2)));
+        employeeDao.save(employee);
+
+        Employee anotherEmployee = employeeDao.findEmployeeByIdWithVacations(employee.getId());
+        System.out.println(anotherEmployee.getVacationBookings());
+        assertEquals(2, anotherEmployee.getVacationBookings().size());
+    }
+
+    @Test
+    public void testPhoneNumber() {
+        Employee employee = new Employee("x", 1L, "John Doe");
+        employee.setPhoneNumbers(Map.of("home", "1234", "work", "4321"));
+
+        employeeDao.save(employee);
+        Employee anotherEmployee = employeeDao.findEmployeeByIdWithPhoneNumbers(employee.getId());
+        assertEquals("1234", anotherEmployee.getPhoneNumbers().get("home"));
+        assertEquals("4321", anotherEmployee.getPhoneNumbers().get("work"));
     }
 }
