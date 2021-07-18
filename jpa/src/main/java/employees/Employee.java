@@ -28,6 +28,11 @@ public class Employee {
     @Enumerated(EnumType.STRING)
     private EmployeeType employeeType = EmployeeType.FULL_TIME;
 
+    @PostPersist
+    public void debugPersist() {
+        System.out.println(name + " " + id);
+    }
+
     public Employee() {
     }
 

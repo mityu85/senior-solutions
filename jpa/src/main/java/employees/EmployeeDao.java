@@ -36,11 +36,39 @@ public class EmployeeDao {
         return employees;
     }
 
+    public void updateEmployeeNames() {
+        EntityManager em = entityManagerFactory.createEntityManager();
+
+        List<Employee> employees = em.createQuery("select e from Employee e order by e.name", Employee.class)
+                .getResultList();
+
+        em.getTransaction().begin();
+        for (Employee employee: employees) {
+            employee.setName(employee.getName() + " ***");
+            System.out.println("Updated");
+            em.flush();
+        }
+        em.getTransaction().commit();
+
+        em.close();
+    }
+
     public void changeName(String depName, Long id, String name) {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         Employee employee = em.find(Employee.class, new EmployeeId(depName, id));
         employee.setName(name);
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    public void updateEmployee(Employee employee) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        em.getTransaction().begin();
+        Employee merged = em.merge(employee);
+
+        merged.setName("***" + employee.getName());
+
         em.getTransaction().commit();
         em.close();
     }

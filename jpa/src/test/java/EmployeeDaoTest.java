@@ -12,8 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class EmployeeDaoTest {
 
@@ -97,5 +96,38 @@ public class EmployeeDaoTest {
         }
         Employee employee = employeeDao.listAll().get(0);
         assertEquals(LocalDate.of(2000,1,1), employee.getDateOfBirth());
+    }
+
+    @Test
+    public void testSaveEmployeeThenChangeState() {
+        Employee employee = new Employee("x", 1L, "John Doe");
+        employeeDao.save(employee);
+
+        employee.setName("Jack Doe");
+        Employee modifiedEmployee = employeeDao.findById(employee.getDepName(), employee.getId());
+
+        assertEquals("John Doe", modifiedEmployee.getName());
+        assertFalse(employee == modifiedEmployee);
+    }
+
+    @Test
+    public void testMerge() {
+        Employee employee = new Employee("x", 1L, "John Doe");
+        employeeDao.save(employee);
+
+        employee.setName("Jack Doe");
+        employeeDao.updateEmployee(employee);
+
+        Employee modifiedEmployee = employeeDao.findById(employee.getDepName(), employee.getId());
+        assertEquals("***Jack Doe", modifiedEmployee.getName());
+    }
+
+    @Test
+    public void testFlush() {
+        for (long i = 0; i < 10; i++) {
+            employeeDao.save(new Employee("x", i, "John Doe" + i, Employee.EmployeeType.HALF_TIME,
+                    LocalDate.of(2000, 1,1)));
+        }
+        employeeDao.updateEmployeeNames();
     }
 }
