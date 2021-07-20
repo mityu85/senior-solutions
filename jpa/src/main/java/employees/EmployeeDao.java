@@ -2,6 +2,9 @@ package employees;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class EmployeeDao {
@@ -119,5 +122,52 @@ public class EmployeeDao {
                 .getSingleResult();
         em.close();
         return employee;
+    }
+
+    public Employee findEmployeeByName(String name) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Employee> c = cb.createQuery(Employee.class);
+        Root<Employee> emp = c.from(Employee.class);
+        c.select(emp).where(cb.equal(emp.get("name"), name));
+        Employee employee = em.createQuery(c).getSingleResult();
+        em.close();
+        return employee;
+    }
+
+    public List<Employee> listEmployees(int start, int maxResult) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        List<Employee> employees = em.createNamedQuery("listEmployees", Employee.class)
+                .setFirstResult(start)
+                .setMaxResults(maxResult)
+                .getResultList();
+        em.close();
+        return employees;
+    }
+
+    public int findParkingPlaceNumberByEmployeeName(String name) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        int i = em.createQuery("select p.number from Employee e join e.parkingPlace p where e.name = :name", Integer.class)
+                .setParameter("name", name)
+                .getSingleResult();
+        em.close();
+        return i;
+    }
+
+    public List<Object[]> listEntityBaseData() {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        List<Object[]> baseData = em.createQuery("select e.id, e.name from Employee e")
+                .getResultList();
+        em.close();
+        return baseData;
+    }
+
+    public List<EmpBaseDataDto> listEmployeeDto() {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        List<EmpBaseDataDto> data = em.createQuery("select new employees.EmpBaseDataDto(e.id, e.name) from Employee e order by e.name")
+                .getResultList();
+
+        em.close();
+        return data;
     }
 }
