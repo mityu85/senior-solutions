@@ -54,4 +54,14 @@ public class Activity {
     public void setActivityType(ActivityType activityType) {
         this.activityType = activityType;
     }
+
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "id=" + id +
+                ", start=" + start +
+                ", description='" + description + '\'' +
+                ", activityType=" + activityType +
+                '}';
+    }
 }
