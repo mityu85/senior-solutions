@@ -17,6 +17,9 @@ public class Activity {
     @Enumerated(EnumType.STRING)
     private ActivityType activityType;
 
+    public Activity() {
+    }
+
     public Activity(LocalDateTime start, String description, ActivityType activityType) {
         this.start = start;
         this.description = description;
