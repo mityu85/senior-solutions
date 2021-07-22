@@ -32,5 +32,8 @@ public class ActivityTrackerMain {
         System.out.println(hiking.getId());
         System.out.println(basketball.getId());
         System.out.println(running.getId());
+
+        entityManager.close();
+        factory.close();
     }
 }
