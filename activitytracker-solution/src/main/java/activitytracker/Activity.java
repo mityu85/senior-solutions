@@ -6,8 +6,15 @@ import java.time.LocalDateTime;
 @Entity
 public class Activity {
 
+
+
+    @TableGenerator(name = "activity_gen",
+            table = "act_id_gen",
+            pkColumnName = "id_gen",
+            valueColumnName = "id_val")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "activity_gen")
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "start_time", nullable = false)
