@@ -10,18 +10,21 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime start;
+    @Column(name = "start_time", nullable = false)
+    private LocalDateTime startTime;
+
+    @Column(length = 200, nullable = false)
     private String description;
 
-    @Column(name = "activity_type")
+    @Column(name = "activity_type", length = 20, nullable = false)
     @Enumerated(EnumType.STRING)
     private ActivityType activityType;
 
     public Activity() {
     }
 
-    public Activity(LocalDateTime start, String description, ActivityType activityType) {
-        this.start = start;
+    public Activity(LocalDateTime startTime, String description, ActivityType activityType) {
+        this.startTime = startTime;
         this.description = description;
         this.activityType = activityType;
     }
@@ -35,11 +38,11 @@ public class Activity {
     }
 
     public LocalDateTime getStart() {
-        return start;
+        return startTime;
     }
 
     public void setStart(LocalDateTime start) {
-        this.start = start;
+        this.startTime = start;
     }
 
     public String getDescription() {
@@ -62,7 +65,7 @@ public class Activity {
     public String toString() {
         return "Activity{" +
                 "id=" + id +
-                ", start=" + start +
+                ", start=" + startTime +
                 ", description='" + description + '\'' +
                 ", activityType=" + activityType +
                 '}';
