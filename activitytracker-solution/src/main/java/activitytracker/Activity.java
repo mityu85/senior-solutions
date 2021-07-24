@@ -2,6 +2,7 @@ package activitytracker;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Activity {
@@ -16,6 +17,9 @@ public class Activity {
     @GeneratedValue(generator = "activity_gen")
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ElementCollection
+    private List<String> labels;
 
     @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
@@ -95,6 +99,14 @@ public class Activity {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
     }
 
     @Override

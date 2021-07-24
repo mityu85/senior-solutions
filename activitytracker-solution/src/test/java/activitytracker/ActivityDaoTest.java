@@ -78,4 +78,15 @@ public class ActivityDaoTest {
         List<Activity> activities = activityDao.listActivities();
         assertTrue(activities.isEmpty());
     }
+
+    @Test
+    public void testLabels() {
+        Activity running = new Activity(LocalDateTime.of(
+                2021, 4, 28, 10, 30, 0), "running", ActivityType.RUNNING);
+        running.setLabels(List.of("half Marathon", "Vivacity"));
+        activityDao.saveActivity(running);
+
+        Activity runningWithLabels = activityDao.findActivityByIdWithLabels(running.getId());
+        assertEquals(List.of("half Marathon", "Vivacity"), runningWithLabels.getLabels());
+    }
 }
