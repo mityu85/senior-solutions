@@ -27,6 +27,19 @@ public class Activity {
     @Enumerated(EnumType.STRING)
     private ActivityType activityType;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void setCreatedAtBeforePersist() {
+        setCreatedAt(LocalDateTime.now());
+    }
+
+    @PreUpdate
+    public void setUpdateAtAfterUpdate() {
+        setUpdatedAt(LocalDateTime.now());
+    }
+
     public Activity() {
     }
 
@@ -44,14 +57,6 @@ public class Activity {
         this.id = id;
     }
 
-    public LocalDateTime getStart() {
-        return startTime;
-    }
-
-    public void setStart(LocalDateTime start) {
-        this.startTime = start;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -66,6 +71,30 @@ public class Activity {
 
     public void setActivityType(ActivityType activityType) {
         this.activityType = activityType;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override

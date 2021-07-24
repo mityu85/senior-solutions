@@ -58,6 +58,17 @@ public class ActivityDaoTest {
     }
 
     @Test
+    public void testSaveAndUpdate() {
+        Activity hiking = new Activity(LocalDateTime.of(
+                2021, 2, 2, 18, 0, 0), "hiking", ActivityType.HIKING);
+        activityDao.saveActivity(hiking);
+        long id = hiking.getId();
+        activityDao.updateActivity(id, "dangerous hiking");
+        Activity modifiedHiking = activityDao.findActivityById(id);
+        assertEquals("dangerous hiking", modifiedHiking.getDescription());
+    }
+
+    @Test
     public void testDelete() {
         Activity basketball = new Activity(LocalDateTime.of(
                 2021, 5, 18, 8, 2, 0), "basketball", ActivityType.BASKETBALL);
