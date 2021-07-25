@@ -130,6 +130,7 @@ public class ActivityDaoTest {
                 activityDao.findTrackPointCoordinatesByDate(LocalDate.of(2018, 1, 1),
                         1, 2);
 
-        System.out.println(data);
+        assertEquals(2, data.size());
+        assertEquals(12.789, data.get(1).getLat());
     }
 }
