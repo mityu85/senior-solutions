@@ -97,4 +97,13 @@ public class ActivityDao {
         entityManager.close();
         return data;
     }
+
+    public List<Object[]> findTrackPointCountByActivity() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        List<Object[]> data = entityManager
+                .createQuery("select a.description, a.trackPoints.size from Activity a order by a.description")
+                .getResultList();
+        entityManager.close();
+        return data;
+    }
 }

@@ -133,4 +133,27 @@ public class ActivityDaoTest {
         assertEquals(2, data.size());
         assertEquals(12.789, data.get(1).getLat());
     }
+
+    @Test
+    public void testTrackPointCountByActivity() {
+        TrackPoint t1 = new TrackPoint(LocalDate.of(2021, 5, 17), 45.789, 98.456);
+        TrackPoint t2 = new TrackPoint(LocalDate.of(2021, 5, 18), 75.789, 18.456);
+        TrackPoint t3 = new TrackPoint(LocalDate.of(2021, 5, 19), 12.789, 78.456);
+        TrackPoint t4 = new TrackPoint(LocalDate.of(2017, 5, 18), 75.789, 18.456);
+
+        Activity running = new Activity(LocalDateTime.of(
+                2016, 4, 28, 10, 30, 0), "running", ActivityType.RUNNING);
+
+        running.addTrackPoint(t1);
+        running.addTrackPoint(t2);
+        running.addTrackPoint(t3);
+        running.addTrackPoint(t4);
+
+        activityDao.saveActivity(running);
+
+        List<Object[]> data = activityDao.findTrackPointCountByActivity();
+
+        assertEquals(1, data.size());
+        assertEquals("running", data.get(0)[0]);
+    }
 }
