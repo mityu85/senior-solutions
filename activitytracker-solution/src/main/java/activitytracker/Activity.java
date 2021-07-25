@@ -8,8 +8,6 @@ import java.util.List;
 @Entity
 public class Activity {
 
-
-
     @TableGenerator(name = "activity_gen",
             table = "act_id_gen",
             pkColumnName = "id_gen",
